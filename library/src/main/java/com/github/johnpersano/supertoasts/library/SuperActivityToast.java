@@ -73,7 +73,6 @@ public class SuperActivityToast extends SuperToast {
     }
 
     private Context mContext;
-    private View mView;
     private ViewGroup mViewGroup;
     private ProgressBar mProgressBar;
     private Style mStyle;
@@ -204,43 +203,44 @@ public class SuperActivityToast extends SuperToast {
             throw new IllegalArgumentException("SuperActivityToast Context must be an Activity.");
         }
 
+        View view;
         // Inflate the appropriate View for the type, do not return for each case since mView must be set
         switch (type) {
             case Style.TYPE_STANDARD:
-                this.mView = layoutInflater.inflate(R.layout.supertoast, (ViewGroup)
+                view = layoutInflater.inflate(R.layout.supertoast, (ViewGroup)
                         ((Activity) context)
                         .findViewById(android.R.id.content), false);
                 break;
 
             case Style.TYPE_BUTTON:
-                this.mView = layoutInflater.inflate(R.layout.supertoast_button, (ViewGroup)
+                view = layoutInflater.inflate(R.layout.supertoast_button, (ViewGroup)
                         ((Activity) context)
                         .findViewById(android.R.id.content), false);
                 break;
 
             case Style.TYPE_PROGRESS_CIRCLE:
-                this.mView = layoutInflater.inflate(R.layout.supertoast_progress_circle,
+                view = layoutInflater.inflate(R.layout.supertoast_progress_circle,
                         (ViewGroup) ((Activity) context)
                         .findViewById(android.R.id.content), false);
-                this.mProgressBar = (ProgressBar) this.mView.findViewById(R.id.progress_bar);
+                this.mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
                 break;
 
             case Style.TYPE_PROGRESS_BAR:
-                this.mView = layoutInflater.inflate(R.layout.supertoast_progress_bar,
+                view = layoutInflater.inflate(R.layout.supertoast_progress_bar,
                         (ViewGroup) ((Activity) context)
                         .findViewById(android.R.id.content), false);
-                this.mProgressBar = (ProgressBar) this.mView.findViewById(R.id.progress_bar);
+                this.mProgressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
                 break;
 
             default:
                 // Type received was erroneous so inflate the standard SuperToast layout
-                this.mView = layoutInflater.inflate(R.layout.supertoast,
+                view = layoutInflater.inflate(R.layout.supertoast,
                         (ViewGroup) ((Activity) context)
                         .findViewById(android.R.id.content), false);
                 break;
         }
 
-        return this.mView;
+        return view;
     }
 
     /**
@@ -676,6 +676,7 @@ public class SuperActivityToast extends SuperToast {
     protected void onPrepareShow() {
         super.onPrepareShow(); // This will take care of many modifications 
 
+        View view = getView();
         final FrameLayout.LayoutParams layoutParams = new FrameLayout
                 .LayoutParams(this.mStyle.width, this.mStyle.height);
 
@@ -702,7 +703,7 @@ public class SuperActivityToast extends SuperToast {
                 } 
 
                 // Set up the Button attributes
-                final Button button = (Button) this.mView.findViewById(R.id.button);
+                final Button button = (Button) view.findViewById(R.id.button);
                 button.setBackgroundResource(BackgroundUtils
                         .getButtonBackgroundResource(this.mStyle.frame));
                 button.setText(this.mStyle.buttonText != null ?
@@ -712,7 +713,7 @@ public class SuperActivityToast extends SuperToast {
                 button.setTextSize(this.mStyle.buttonTextSize);
                 
                 if (this.mStyle.frame != Style.FRAME_LOLLIPOP) {
-                    this.mView.findViewById(R.id.divider).setBackgroundColor(this
+                    view.findViewById(R.id.divider).setBackgroundColor(this
                             .mStyle.buttonDividerColor);
 
                     // Set an icon resource if desired
@@ -773,11 +774,11 @@ public class SuperActivityToast extends SuperToast {
         layoutParams.leftMargin = this.mStyle.xOffset;
         layoutParams.rightMargin = this.mStyle.xOffset;
 
-        this.mView.setLayoutParams(layoutParams);
+        view.setLayoutParams(layoutParams);
 
         // Set up touch to dismiss
         if (this.mStyle.touchToDismiss) {
-            mView.setOnTouchListener(new View.OnTouchListener() {
+            view.setOnTouchListener(new View.OnTouchListener() {
 
                 int timesTouched;
                 @Override
@@ -791,7 +792,7 @@ public class SuperActivityToast extends SuperToast {
             });
         } else {
             // Make sure no listener is set
-            mView.setOnTouchListener(null);
+            view.setOnTouchListener(null);
         }
     }
 
