@@ -215,7 +215,7 @@ public class SuperToast {
 
             // We are NOT on a big screen device, show the SuperToast on the bottom with NO padding
             } else {
-                this.mStyle.yOffset = 0;
+                //this.mStyle.yOffset = 0;
                 this.mStyle.width = FrameLayout.LayoutParams.MATCH_PARENT;
             }
             
