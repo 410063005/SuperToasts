@@ -101,9 +101,7 @@ public class AnimationUtils {
                         propertyValuesHolderAlpha).setDuration(SHOW_DURATION);
 
             default:
-                return ObjectAnimator.ofPropertyValuesHolder(superActivityToast.getView(),
-                        propertyValuesHolderAlpha)
-                        .setDuration(SHOW_DURATION);
+                return superActivityToast.getShowAnimation();
         }
     }
 
@@ -140,8 +138,7 @@ public class AnimationUtils {
                         propertyValuesHolderAlpha).setDuration(SHOW_DURATION);
 
             default:
-                return ObjectAnimator.ofPropertyValuesHolder(superActivityToast.getView(), propertyValuesHolderAlpha)
-                        .setDuration(SHOW_DURATION);
+                return superActivityToast.getHideAnimation();
         }
     }
 }

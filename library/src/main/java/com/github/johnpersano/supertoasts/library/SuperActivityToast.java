@@ -15,6 +15,9 @@
 
 package com.github.johnpersano.supertoasts.library;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -38,6 +41,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import com.github.johnpersano.supertoasts.library.utils.AnimationUtils;
 import com.github.johnpersano.supertoasts.library.utils.BackgroundUtils;
 import com.github.johnpersano.supertoasts.library.utils.ListenerUtils;
 
@@ -667,6 +671,22 @@ public class SuperActivityToast extends SuperToast {
     @Style.Type
     public int getType() {
         return this.mStyle.type;
+    }
+
+    @NonNull
+    public Animator getShowAnimation() {
+        final PropertyValuesHolder propertyValuesHolderAlpha = PropertyValuesHolder
+                .ofFloat("alpha", 0f, 1f);
+        return ObjectAnimator.ofPropertyValuesHolder(getView(),
+                propertyValuesHolderAlpha)
+                .setDuration(AnimationUtils.SHOW_DURATION);
+    }
+
+    @NonNull
+    public Animator getHideAnimation() {
+        final PropertyValuesHolder propertyValuesHolderAlpha = PropertyValuesHolder.ofFloat("alpha", 1f, 0f);
+        return ObjectAnimator.ofPropertyValuesHolder(getView(), propertyValuesHolderAlpha)
+                .setDuration(AnimationUtils.HIDE_DURATION);
     }
 
     /**
